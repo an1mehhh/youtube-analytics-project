@@ -22,10 +22,7 @@ class Channel:
                 "snippet"][
                 "description"]
         # ссылка на канал
-        self.url = \
-            self.youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()["items"][0][
-                "snippet"][
-                "thumbnails"]["default"]["url"]
+        self.url = f"https://www.youtube.com/channel/{channel_id}"
         # количество подписчиков
         self.subscriber_count = \
             self.youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()["items"][0][
