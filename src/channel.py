@@ -22,10 +22,7 @@ class Channel:
                 "snippet"][
                 "description"]
         # ссылка на канал
-        self.url = \
-            self.youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()["items"][0][
-                "snippet"][
-                "thumbnails"]["default"]["url"]
+        self.url = f"https://www.youtube.com/channel/{channel_id}"
         # количество подписчиков
         self.subscriber_count = \
             self.youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()["items"][0][
@@ -59,6 +56,7 @@ class Channel:
         return cls.youtube
 
     def to_json(self, filename):
+        """метод to_json(), сохраняющий в файл значения атрибутов экземпляра Channel"""
         data = {
             "channel_id": self.__channel_id,
             "title": self.title,
@@ -71,3 +69,25 @@ class Channel:
 
         with open(filename, "w") as f:
             f.write(json.dumps(data))
+
+    def __str__(self):
+        """возвращает название и ссылку на канал по шаблону <название_канала> (<ссылка_на_канал>)"""
+        return f"{self.title} ({self.url})"
+
+    def __add__(self, other):
+        return int(self.subscriber_count) + int(other.subscriber_count)
+
+    def __sub__(self, other):
+        return int(self.subscriber_count) - int(other.subscriber_count)
+
+    def __gt__(self, other):
+        return int(self.subscriber_count) > int(other.subscriber_count)
+
+    def __ge__(self, other):
+        return int(self.subscriber_count) >= int(other.subscriber_count)
+
+    def __lt__(self, other):
+        return int(self.subscriber_count) < int(other.subscriber_count)
+
+    def __le__(self, other):
+        return int(self.subscriber_count) <= int(other.subscriber_count)
