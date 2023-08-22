@@ -69,24 +69,24 @@ class Channel:
         with open(filename, "w") as f:
             f.write(json.dumps(data))
 
-        def __str__(self):
-            """возвращает название и ссылку на канал по шаблону <название_канала> (<ссылка_на_канал>)"""
-            return f"{self.title} ({self.url})"
+    def __str__(self):
+        """возвращает название и ссылку на канал по шаблону <название_канала> (<ссылка_на_канал>)"""
+        return f"{self.title} ({self.url})"
 
-        def __add__(self, other):
-            return int(self.subscriber_count) + int(other.subscriber_count)
+    def __add__(self, other):
+        return int(self.subscriber_count) + int(other.subscriber_count)
 
-        def __sub__(self, other):
-            return int(self.subscriber_count) - int(other.subscriber_count)
+    def __sub__(self, other):
+        return int(self.subscriber_count) - int(other.subscriber_count)
 
-        def __gt__(self, other):
-            return int(self.subscriber_count) > int(other.subscriber_count)
+    def __gt__(self, other):
+        return int(self.subscriber_count) > int(other.subscriber_count)
 
-        def __ge__(self, other):
-            return int(self.subscriber_count) >= int(other.subscriber_count)
+    def __ge__(self, other):
+        return int(self.subscriber_count) >= int(other.subscriber_count)
 
-        def __lt__(self, other):
-            return int(self.subscriber_count) < int(other.subscriber_count)
+    def __lt__(self, other):
+        return int(self.subscriber_count) < int(other.subscriber_count)
 
-        def __le__(self, other):
-            return int(self.subscriber_count) <= int(other.subscriber_count)
+    def __le__(self, other):
+        return int(self.subscriber_count) <= int(other.subscriber_count)
