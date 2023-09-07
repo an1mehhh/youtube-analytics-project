@@ -8,21 +8,27 @@ class Video:
 
     def __init__(self, video_id):
         self.__video_id = video_id
-        self.name_video = \
-            self.youtube.videos().list(part="snippet,statistics", id=self.__video_id).execute()["items"][0]["snippet"][
-                "title"]
-        self.url = f"https://www.youtube.com/watch?v={self.__video_id}"
-        self.view_count = \
-            self.youtube.videos().list(part='snippet,statistics', id=self.__video_id, ).execute()["items"][0][
-                "statistics"][
-                "viewCount"]
-        self.like_count = \
-            self.youtube.videos().list(part='snippet,statistics', id=self.__video_id, ).execute()["items"][0][
-                "statistics"][
-                "likeCount"]
+
+        if item := self._err(self.__video_id):
+            self.title = item['snippet']['title']
+            self.view_count = int(item['statistics']['viewCount'])
+            self.like_count = int(item['statistics']['likeCount'])
+            self.url = f"https://www.youtube.com/watch?v={self.__video_id}"
+        else:
+            self.title = self.view_count = self.like_count = self.url = None
 
     def __str__(self):
-        return f"{self.name_video}"
+        return f"{self.title}"
+
+    @property
+    def video_id(self):
+        return self.__video_id
+
+    def _err(self, video_id):
+        try:
+            return self.youtube.videos().list(id=video_id, part="snippet,statistics").execute()["items"][0]
+        except (IndexError, ValueError):
+            print('Please check your video ID')
 
 
 class PLVideo(Video):
